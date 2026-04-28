@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "Xecv3yqvMkDVvG8D/+16NGor1KLjSZ4yUOikSjDGMA4=",
+  "Source": "ReactProjekti.Server",
+  "BasePath": "_content/ReactProjekti.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\tuukka.lauren\\source\\repos\\Careerian-pelätyimmät\\ReactProjekti\\reactprojekti.client\\reactprojekti.client.esproj",
+      "Version": 2,
+      "Source": "reactprojekti.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
