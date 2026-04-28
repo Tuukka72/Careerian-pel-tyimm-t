@@ -1,27 +1,27 @@
 project layout
 
-ReactProjeckti <--- project folder
-    |
-    |
-    |---.vs <--- something idk
-    |     |
-    |     |
-    |     |----> ProjectEvaluation <--- some .bin files
-    |     |
-    |     |
-    |     |----> ReactProjekti
-    |                   |
-    |                   |
-    |                   |----> config <--- has applicationhost.config inside
-    |                   |
-    |                   |
-    |                   |----> FileContentIndex <--- has some file inside
-    |                   |
-    |                   |
-    |                   |----> v17
-    |                           |
-    |                           |
-    |                           |----> TestStore
+ReactProjeckti <--- project folder                                                                                                        
+    |                                                                                                                                   
+    |                                                                                                                                   
+    |---.vs <--- something idk                                                                                                          
+    |     |                                                                                                                             
+    |     |                                                                                                                             
+    |     |----> ProjectEvaluation <--- some .bin files                                                                                   
+    |     |                                                                                                                             
+    |     |                                                                                                                               
+    |     |----> ReactProjekti                                                                                                          
+    |                   |                                                                                                               
+    |                   |                                                                                                               
+    |                   |----> config <--- has applicationhost.config inside                                                            
+    |                   |                                                                                                               
+    |                   |                                                                                                               
+    |                   |----> FileContentIndex <--- has some file inside                                                               
+    |                   |                                                                                                               
+    |                   |                                                                                                               
+    |                   |----> v17                                                                                                      
+    |                           |                                                                                                         
+    |                           |                                                                                                         
+    |                           |----> TestStore                                                                                          
     |       
     |
     |---my-app
