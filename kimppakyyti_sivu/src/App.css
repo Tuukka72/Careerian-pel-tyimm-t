@@ -2,7 +2,7 @@ css
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #ffffff;
+  background-color: #2c2b2b;
   color: rgb(0, 0, 0);
 }
 
@@ -19,6 +19,7 @@ body {
   width: 600px;
 }
 
+
 .new-btn {
   background: transparent;
   border: 2px solid #D7AF4D;
@@ -34,12 +35,10 @@ body {
   color: white;
 }
 
-/* Lista box */
 .list-box {
   border: 2px solid #D7AF4D;
 }
 
-/* Header */
 .list-header {
   display: flex;
   align-items: center;

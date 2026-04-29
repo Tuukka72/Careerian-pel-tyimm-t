@@ -1,0 +1,104 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #2c2b2b;
+  color: rgb(0, 0, 0);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* MAIN CARD */
+.card {
+  border: 2px solid #D7AF4D;
+  padding: 25px;
+  width: 650px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TOP ROW LAYOUT */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* ROUTE (left box) */
+.route-input {
+  border: 2px solid #D7AF4D;
+  padding: 12px;
+  width: 200px;
+  font-size: 14px;
+  background: black;
+}
+
+/* RIGHT SIDE (buttons + selection stacked) */
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.button-group button {
+  background: transparent;
+  border: 2px solid #D7AF4D;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.button-group button:hover {
+  background-color: #D7AF4D;
+  color: rgb(0, 0, 0);
+}
+
+.button-group .active {
+  background-color: #D7AF4D;
+  color: rgb(0, 0, 0);
+}
+
+/* SELECTION BOX UNDER BUTTONS */
+.selection {
+  margin-top: 10px;
+  border: 2px solid #D7AF4D;
+  padding: 8px 12px;
+  text-align: center;
+  width: 180px;
+  font-size: 14px;
+  
+}
+
+.details {
+  border: 2px solid #D7AF4D;
+  padding: 15px;
+  height: 200px;
+  resize: none;
+  font-size: 14px;
+
+  text-align: left;
+
+  display: block;
+  box-sizing: border-box;
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+  margin-top: 10px;
+  background: transparent;
+  border: 2px solid #D7AF4D;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #D7AF4D;
+  color: white;
+}
