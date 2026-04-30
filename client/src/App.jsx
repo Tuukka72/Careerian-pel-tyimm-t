@@ -1,30 +1,16 @@
-app.jsx
-import { useState } from 'react'
-import "./App.css";
+import { Routes, Route } from "react-router-dom"
+import Mainsivu from "./Pages/Mainsivu"
+import NotFound from "./Pages/NotFound"
 
-export default function App() {
+function App() {
   return (
-    <div className="container">
-      <div className="card">
-        
-        <button className="new-btn">Luo uusi</button>
+    <Routes>
+      <Route path="/" element={<Mainsivu />} />
 
-        <div className="list-box">
-          <div className="list-header">
-            <span className="collapse">−</span>
-            <h2>List</h2>
-          </div>
-
-          <div className="list-content">
-            <p>tikkurila ---&gt; PMT</p>
-
-            <div className="date">
-              päivä: 28.4.2026
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
+      {/* 404 page */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  )
 }
+
+export default App

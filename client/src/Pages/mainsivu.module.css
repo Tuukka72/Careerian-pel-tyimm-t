@@ -1,0 +1,67 @@
+css
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #2c2b2b;
+  color: rgb(0, 0, 0);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  border: 2px solid #D7AF4D;
+  padding: 30px;
+  width: 600px;
+}
+
+
+.new-btn {
+  background: transparent;
+  border: 2px solid #D7AF4D;
+  color: #000000;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.new-btn:hover {
+  background-color: #D7AF4D;
+  color: white;
+}
+
+.list-box {
+  border: 2px solid #D7AF4D;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #D7AF4D;
+  padding: 10px;
+}
+
+.list-header h2 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.collapse {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.list-content {
+  padding: 20px;
+}
+
+.date {
+  margin-top: 40px;
+  color: #000000;
+}
