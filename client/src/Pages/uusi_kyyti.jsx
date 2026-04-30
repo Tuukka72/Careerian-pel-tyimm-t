@@ -1,11 +1,10 @@
 import { useState } from "react";
-import "./uusikyyticss.css";
+import style from "../css/uusikyyticss.module.css"
 
 export default function App() {
-  const [type, setType] = useState(""); // tarjoaa / pyytää
+  const [type, setType] = useState("");
   const [route, setRoute] = useState("");
   const [details, setDetails] = useState("");
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ route, type, details });
@@ -17,10 +16,8 @@ export default function App() {
 
         <form onSubmit={handleSubmit}>
 
-          {/* TOP ROW */}
           <div className="top-row">
 
-            {/* DROPDOWN ROUTE */}
             <select
               value={route}
               onChange={(e) => setRoute(e.target.value)}
@@ -50,12 +47,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* SELECTION DISPLAY */}
           <div className="selection">
             {type ? `Valittu: ${type}` : "nappien valinta"}
           </div>
 
-          {/* TEXT AREA */}
           <textarea
             placeholder="lisätiedot tähän"
             value={details}

@@ -1,5 +1,5 @@
 import Navbar from './Navbar';
-import styles from '../Pages/mainsivu.module.css';
+import styles from '../css/mainsivu.module.css';
 
 export default function App() {
   return (
