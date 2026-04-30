@@ -7,9 +7,16 @@ export default function App() {
   const [details, setDetails] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ route, type, details });
-  };
+  e.preventDefault();
+
+  const newItem = { route, type, details };
+
+  const existing = JSON.parse(localStorage.getItem("list") || "[]");
+
+  localStorage.setItem("list", JSON.stringify([...existing, newItem]));
+
+  console.log("saved locally:", newItem);
+};
 
   return (
     <div className={style.container}>
