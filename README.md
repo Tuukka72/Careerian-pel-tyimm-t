@@ -1,1 +1,2 @@
-kimppakyyti_sivun src: frontend
+to do
+tietokanta
