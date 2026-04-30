@@ -1,1 +1,5 @@
-export default function NotFound(){}
+export default function NotFound(){
+    <>
+    <h1>press home</h1>
+    </>
+}

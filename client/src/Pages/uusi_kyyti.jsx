@@ -1,37 +1,36 @@
 import { useState } from "react";
-import style from "../css/uusikyyticss.module.css"
+import style from "../css/uusikyyticss.module.css";
 
 export default function App() {
   const [type, setType] = useState("");
   const [route, setRoute] = useState("");
   const [details, setDetails] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ route, type, details });
   };
 
   return (
-    <div className="container">
-      <div className="card">
-
+    <div className={style.container}>
+      <div className={style.card}>
         <form onSubmit={handleSubmit}>
 
-          <div className="top-row">
-
+          <div className={style["top-row"]}>
             <select
               value={route}
               onChange={(e) => setRoute(e.target.value)}
-              className="route-input"
+              className={style["route-input"]}
             >
               <option value="">Valitse reitti</option>
               <option value="Tikkurila → PMT">Tikkurila → PMT</option>
               <option value="PMT → Tikkurila">PMT → Tikkurila</option>
             </select>
 
-            <div className="button-group">
+            <div className={style["button-group"]}>
               <button
                 type="button"
-                className={type === "tarjoaa" ? "active" : ""}
+                className={type === "tarjoaa" ? style.active : ""}
                 onClick={() => setType("tarjoaa")}
               >
                 tarjoaa
@@ -39,7 +38,7 @@ export default function App() {
 
               <button
                 type="button"
-                className={type === "pyytää" ? "active" : ""}
+                className={type === "pyytää" ? style.active : ""}
                 onClick={() => setType("pyytää")}
               >
                 pyytää
@@ -47,7 +46,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="selection">
+          <div className={style.selection}>
             {type ? `Valittu: ${type}` : "nappien valinta"}
           </div>
 
@@ -55,15 +54,14 @@ export default function App() {
             placeholder="lisätiedot tähän"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
-            className="details"
+            className={style.details}
           />
 
-          <button type="submit" className="submit-btn">
+          <button type="submit" className={style["submit-btn"]}>
             Lähetä
           </button>
 
         </form>
-
       </div>
     </div>
   );

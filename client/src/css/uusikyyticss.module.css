@@ -7,21 +7,15 @@ body {
 
 .container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  justify-content: center;  
+  align-items: center;   
+  min-height: 100vh;   
 }
 
-/* MAIN CARD */
 .card {
-  border: 2px solid #D7AF4D;
-  padding: 25px;
-  width: 650px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 100%;
+  max-width: 500px;        
 }
-
 /* TOP ROW LAYOUT */
 .top-row {
   display: flex;
@@ -36,7 +30,7 @@ body {
   padding: 12px;
   width: 200px;
   font-size: 14px;
-  background: black;
+  background: transparent;
 }
 
 /* RIGHT SIDE (buttons + selection stacked) */
