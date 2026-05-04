@@ -8,18 +8,14 @@ import Navbar from "./Pages/Navbar"
 import PoistaKyydit from "./Pages/PoistaKyydit"
 
 function App() {
+  const [theme, setTheme] = useState("light")
 
   useEffect(() => {
     fetch("/api/test")
       .then(res => res.text())
       .then(data => console.log(data))
-      .catch(err => console.error(err));
-  }, []);
-
-  return (
-    <>
-      <Navbar />
-  const [theme, setTheme] = useState("light")
+      .catch(err => console.error(err))
+  }, [])
 
   useEffect(() => {
     const saved = localStorage.getItem("theme")
