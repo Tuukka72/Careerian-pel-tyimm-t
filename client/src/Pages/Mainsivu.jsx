@@ -13,8 +13,6 @@ export default function App() {
 
   return (
     <>
-      <Navbar />
-
       <div className={styles.container}>
         <div className={styles.card}>
           <Link to="/uusikyyti" className={styles["new-btn"]}>Uusi kyyti</Link>

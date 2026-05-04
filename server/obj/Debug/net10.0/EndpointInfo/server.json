@@ -1,0 +1,41 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "server | v1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7150"
+    },
+    {
+      "url": "http://localhost:5054"
+    }
+  ],
+  "paths": {
+    "/api/test": {
+      "get": {
+        "tags": [
+          "server"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "server"
+    }
+  ]
+}
