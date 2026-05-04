@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+
 import Mainsivu from "./Pages/Mainsivu"
 import NotFound from "./Pages/NotFound"
 import Uusikyyti from "./Pages/uusi_kyyti"
@@ -18,6 +19,31 @@ function App() {
   return (
     <>
       <Navbar />
+  const [theme, setTheme] = useState("light")
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme")
+
+    if (saved) {
+      setTheme(saved)
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark")
+    }
+  }, [])
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark-mode")
+    } else {
+      document.body.classList.remove("dark-mode")
+    }
+
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  return (
+    <>
+      <Navbar theme={theme} setTheme={setTheme} />
 
       <Routes>
         <Route path="/" element={<Mainsivu />} />
