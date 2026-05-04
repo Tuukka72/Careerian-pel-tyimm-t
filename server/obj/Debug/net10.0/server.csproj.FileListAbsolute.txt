@@ -32,3 +32,4 @@ C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\refint\se
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.pdb
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.genruntimeconfig.cache
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\ref\server.dll
+C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
