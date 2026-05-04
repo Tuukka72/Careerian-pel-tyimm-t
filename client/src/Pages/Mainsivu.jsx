@@ -17,7 +17,11 @@ export default function App() {
 
       <div className={styles.container}>
         <div className={styles.card}>
-          <Link to="/uusikyyti" className={styles["new-btn"]}>Uusi kyyti</Link>
+
+          <Link to="/uusikyyti" className={styles["new-btn"]}>
+            Uusi kyyti
+          </Link>
+
           <div className={styles["list-box"]}>
             <div className={styles["list-header"]}>
               <span className={styles.collapse}>−</span>
@@ -33,8 +37,8 @@ export default function App() {
                 </div>
               ))}
             </div>
-
           </div>
+
         </div>
       </div>
     </>
