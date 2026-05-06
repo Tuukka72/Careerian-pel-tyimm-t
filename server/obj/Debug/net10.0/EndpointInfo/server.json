@@ -31,6 +31,87 @@
           }
         }
       }
+    },
+    "/kyydit": {
+      "get": {
+        "tags": [
+          "server"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "server"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Kyyti"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Kyyti": {
+        "required": [
+          "kuski_id",
+          "mista",
+          "mihin",
+          "lahtoaika",
+          "paikkoja"
+        ],
+        "type": "object",
+        "properties": {
+          "kuski_id": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "mista": {
+            "type": "string"
+          },
+          "mihin": {
+            "type": "string"
+          },
+          "lahtoaika": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "paikkoja": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          }
+        }
+      }
     }
   },
   "tags": [
