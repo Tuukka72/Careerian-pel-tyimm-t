@@ -32,7 +32,6 @@ C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\refint\se
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.pdb
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.genruntimeconfig.cache
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\ref\server.dll
-C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\appsettings.Development.json
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\appsettings.json
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\server.staticwebassets.endpoints.json
@@ -69,3 +68,5 @@ C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\server.pdb
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\server.genruntimeconfig.cache
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\ref\server.dll
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\Npgsql.dll
+C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\bin\Debug\net10.0\Npgsql.dll
+C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
