@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 import styles from "../css/mainsivu.module.css";
 
 export default function App() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("list") || "[]");
-    setItems(data);
+    fetch("https://localhost:7150/kyydit")
+      .then(res => res.json())
+      .then(data => setItems(data))
+      .catch(err => console.error(err));
   }, []);
 
   return (
@@ -29,9 +30,9 @@ export default function App() {
             <div className={styles["list-content"]}>
               {items.map((item, i) => (
                 <div key={i}>
-                  <p>{item.route}</p>
-                  <p>{item.type}</p>
-                  <p>{item.details}</p>
+                  <p>{item.mista} → {item.mihin}</p>
+                  <p>{item.tyyppi}</p>
+                  <p>{item.lisatiedot}</p>
                 </div>
               ))}
             </div>

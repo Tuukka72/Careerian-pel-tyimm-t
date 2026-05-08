@@ -12,13 +12,6 @@ import Register from "./Pages/Register"
 function App() {
   const [theme, setTheme] = useState("light")
 
-  useEffect(() => {
-    fetch("/api/test")
-      .then(res => res.text())
-      .then(data => console.log(data))
-      .catch(err => console.error(err))
-  }, [])
-
   return (
     <>
       <Navbar theme={theme} setTheme={setTheme} />
