@@ -7,7 +7,7 @@ export default function Navbar({ theme, setTheme }) {
       <h1 className={styles.logo}>MyApp</h1>
 
       <div className={styles.links}>
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="/uusikyyti">Uusi kyyti</Link>
       </div>
     </nav>
