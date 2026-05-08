@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../css/mainsivu.module.css";
 
-export default function App() {
+export default function Mainsivu() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
     fetch("https://localhost:7150/kyydit")
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch rides");
+        }
+        return res.json();
+      })
       .then(data => setItems(data))
       .catch(err => console.error(err));
   }, []);
@@ -29,7 +34,7 @@ export default function App() {
 
             <div className={styles["list-content"]}>
               {items.map((item, i) => (
-                <div key={i}>
+                <div key={item.id}>
                   <p>{item.mista} → {item.mihin}</p>
                   <p>{item.tyyppi}</p>
                   <p>{item.lisatiedot}</p>
