@@ -1,3 +1,5 @@
+using System.ComponentModel.Design;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +82,32 @@ app.MapGet("/kyydit", async (IConfiguration config) =>
     catch (Exception ex)
     {
         return Results.Problem($"Error loading rides: {ex.Message}");
+    }
+});
+app.MapGet("/login", async (IConfiguration config) =>
+{
+    try
+    {
+        var connString = config.GetConnectionString("DefaultConnection");
+        var login = new List<object>();
+        await using var conn = new NpgsqlConnection(connString);
+        await conn.OpenAsync();
+        var cmd = new NpgsqlCommand("SELECT * FROM login", conn);
+        var reader = await cmd.ExecuteReaderAsync();
+        while (await reader.ReadAsync())
+        {
+            login.Add(new
+            {
+                id = reader.GetInt32(reader.GetOrdinal("Id")),
+                name = reader.GetString(reader.GetOrdinal("Name")),
+                password = reader.GetString(reader.GetOrdinal("Password"))
+            });
+        }
+        return Results.Ok(login);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Error loading logins: {ex.Message}");
     }
 });
 
