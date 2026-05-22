@@ -5,32 +5,46 @@ import styles from "../css/mainsivu.module.css";
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
-  const handleRegister = () => {
+
+  const handleRegister = async () => {
     if (!username || !password) {
       alert("Please fill all fields");
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userExists = users.find(
-      (user) => user.username === username
-    );
+    setLoading(true);
 
-    if (userExists) {
-      alert("User already exists");
-      return;
+    try {
+      const response = await fetch(
+        "https://localhost:7150/login/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: username,
+            password: password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || "Registration failed");
+      }
+
+      alert("Registration successful!");
+      navigate("/");
+    } catch (error) {
+      console.error("Register error:", error);
+      alert("Could not register user. Check backend or connection.");
+    } finally {
+      setLoading(false);
     }
-
-    users.push({
-      username,
-      password,
-    });
-
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Registration successful!");
-
-    navigate("/login");
   };
 
   return (
@@ -44,19 +58,26 @@ export default function Register() {
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            disabled={loading}
           />
         </div>
+
         <div className={styles.formGroup}>
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
           />
         </div>
 
-        <button className={styles.newBtn} onClick={handleRegister}>
-          Register
+        <button
+          className={styles["new-btn"]}
+          onClick={handleRegister}
+          disabled={loading}
+        >
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p>
