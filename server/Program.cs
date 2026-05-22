@@ -1,7 +1,10 @@
+using System.ComponentModel.Design;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Allow React frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact",
@@ -13,10 +16,14 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Enable CORS
 app.UseCors("AllowReact");
+
+// Redirect HTTP -> HTTPS
 app.UseHttpsRedirection();
 
-// TEST DB
+
+// TEST DATABASE CONNECTION
 app.MapGet("/db-test", async (IConfiguration config) =>
 {
     try
@@ -24,185 +31,98 @@ app.MapGet("/db-test", async (IConfiguration config) =>
         var connString = config.GetConnectionString("DefaultConnection");
 
         await using var conn = new NpgsqlConnection(connString);
+
         await conn.OpenAsync();
 
         return Results.Ok("Database connected!");
     }
     catch (Exception ex)
     {
-        return Results.Problem(ex.Message);
+        return Results.Problem($"Database error: {ex.Message}");
     }
 });
 
-// KYYDIT - GET
+
+// GET ALL RIDES
 app.MapGet("/kyydit", async (IConfiguration config) =>
 {
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-        var list = new List<object>();
+
+        var kyydit = new List<object>();
 
         await using var conn = new NpgsqlConnection(connString);
+
         await conn.OpenAsync();
 
-        var cmd = new NpgsqlCommand("SELECT * FROM kyydit", conn);
+        var cmd = new NpgsqlCommand(@"
+        SELECT 
+            k.id,
+            k.kuski_id,
+            k.mista,
+            k.mihin,
+            k.lahtoaika,
+            k.paikkoja,
+            k.tyyppi,
+            k.lisatiedot,
+            l.name
+        FROM kyydit k
+        JOIN login l ON k.kuski_id = l.id
+        ", conn);
+
         var reader = await cmd.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
         {
-            list.Add(new
+            kyydit.Add(new
             {
                 id = reader.GetInt32(reader.GetOrdinal("id")),
+                kuski_id = reader.GetInt32(reader.GetOrdinal("kuski_id")),
                 mista = reader.GetString(reader.GetOrdinal("mista")),
                 mihin = reader.GetString(reader.GetOrdinal("mihin")),
+                lahtoaika = reader.GetDateTime(reader.GetOrdinal("lahtoaika")),
+                paikkoja = reader.GetInt32(reader.GetOrdinal("paikkoja")),
                 tyyppi = reader.GetString(reader.GetOrdinal("tyyppi")),
                 lisatiedot = reader.IsDBNull(reader.GetOrdinal("lisatiedot"))
                     ? null
-                    : reader.GetString(reader.GetOrdinal("lisatiedot"))
+                    : reader.GetString(reader.GetOrdinal("lisatiedot")),
+                name = reader.GetString(reader.GetOrdinal("name"))
             });
         }
 
-        return Results.Ok(list);
+        return Results.Ok(kyydit);
     }
     catch (Exception ex)
     {
-        return Results.Problem(ex.Message);
+        return Results.Problem($"Error loading rides: {ex.Message}");
     }
 });
-
-// KYYDIT - POST
-app.MapPost("/kyydit", async (IConfiguration config, Kyyti kyyti) =>
-{
-    try
-    {
-        var connString = config.GetConnectionString("DefaultConnection");
-
-        await using var conn = new NpgsqlConnection(connString);
-        await conn.OpenAsync();
-
-        var cmd = new NpgsqlCommand(
-            "INSERT INTO kyydit (mista, mihin, tyyppi, lisatiedot) VALUES (@mista, @mihin, @tyyppi, @lisatiedot)",
-            conn
-        );
-
-        cmd.Parameters.AddWithValue("mista", kyyti.Mista);
-        cmd.Parameters.AddWithValue("mihin", kyyti.Mihin);
-        cmd.Parameters.AddWithValue("tyyppi", kyyti.Tyyppi);
-        cmd.Parameters.AddWithValue("lisatiedot", kyyti.Lisatiedot ?? (object)DBNull.Value);
-
-        await cmd.ExecuteNonQueryAsync();
-
-        return Results.Ok("Ride added");
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem(ex.Message);
-    }
-});
-
-// USERS - GET
 app.MapGet("/login", async (IConfiguration config) =>
 {
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-        var list = new List<object>();
-
+        var login = new List<object>();
         await using var conn = new NpgsqlConnection(connString);
         await conn.OpenAsync();
-
         var cmd = new NpgsqlCommand("SELECT * FROM login", conn);
         var reader = await cmd.ExecuteReaderAsync();
-
         while (await reader.ReadAsync())
         {
-            list.Add(new
+            login.Add(new
             {
-                id = reader.GetInt32(reader.GetOrdinal("id")),
-                name = reader.GetString(reader.GetOrdinal("name")),
-                password = reader.GetString(reader.GetOrdinal("password"))
+                id = reader.GetInt32(reader.GetOrdinal("Id")),
+                name = reader.GetString(reader.GetOrdinal("Name")),
+                password = reader.GetString(reader.GetOrdinal("Password"))
             });
         }
-
-        return Results.Ok(list);
+        return Results.Ok(login);
     }
     catch (Exception ex)
     {
-        return Results.Problem(ex.Message);
-    }
-});
-
-// REGISTER USER - POST
-app.MapPost("/login/register", async (IConfiguration config, User user) =>
-{
-    try
-    {
-        var connString = config.GetConnectionString("DefaultConnection");
-
-        await using var conn = new NpgsqlConnection(connString);
-        await conn.OpenAsync();
-
-        var cmd = new NpgsqlCommand(
-            "INSERT INTO login (name, password) VALUES (@name, @password)",
-            conn
-        );
-
-        cmd.Parameters.AddWithValue("name", user.Name);
-        cmd.Parameters.AddWithValue("password", user.Password);
-
-        await cmd.ExecuteNonQueryAsync();
-
-        return Results.Ok("User registered");
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem(ex.Message);
-    }
-});
-
-// LOGIN USER - POST
-app.MapPost("/login/login", async (IConfiguration config, User user) =>
-{
-    try
-    {
-        var connString = config.GetConnectionString("DefaultConnection");
-
-        await using var conn = new NpgsqlConnection(connString);
-        await conn.OpenAsync();
-
-        var cmd = new NpgsqlCommand(
-            "SELECT * FROM login WHERE name = @name AND password = @password",
-            conn
-        );
-
-        cmd.Parameters.AddWithValue("name", user.Name);
-        cmd.Parameters.AddWithValue("password", user.Password);
-
-        var reader = await cmd.ExecuteReaderAsync();
-
-        if (await reader.ReadAsync())
-            return Results.Ok("Login successful");
-
-        return Results.Unauthorized();
-    }
-    catch (Exception ex)
-    {
-        return Results.Problem(ex.Message);
+        return Results.Problem($"Error loading logins: {ex.Message}");
     }
 });
 
 app.Run();
-
-public class User
-{
-    public string Name { get; set; }
-    public string Password { get; set; }
-}
-
-public class Kyyti
-{
-    public string Mista { get; set; }
-    public string Mihin { get; set; }
-    public string Tyyppi { get; set; }
-    public string? Lisatiedot { get; set; }
-}
