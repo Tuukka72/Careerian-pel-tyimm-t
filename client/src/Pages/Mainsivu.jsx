@@ -36,11 +36,11 @@ export default function Mainsivu() {
               {items.map((item, i) => (
                 <div key={item.id}>
                   <p>Kuski: {item.name}</p>
-                  <p>{item.mista} → {item.mihin}</p>
-                  <p>{item.lahtoaika}</p>
-                  <p>{item.paikkoja}</p>
-                  <p>{item.tyyppi}</p>
-                  <p>{item.lisatiedot}</p>
+                  <p>Mistä-mihin: {item.mista} → {item.mihin}</p>
+                  <p>Lähtöaika: {item.lahtoaika}</p>
+                  <p>Paikkoja saatavilla: {item.paikkoja}</p>
+                  <p>Tyyppi: {item.tyyppi}</p>
+                  <p>Lisätiedot: {item.lisatiedot}</p>
                 </div>
               ))}
             </div>
