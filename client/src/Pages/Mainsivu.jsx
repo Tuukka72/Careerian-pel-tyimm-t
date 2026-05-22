@@ -35,7 +35,10 @@ export default function Mainsivu() {
             <div className={styles["list-content"]}>
               {items.map((item, i) => (
                 <div key={item.id}>
+                  <p>Kuski: {item.name}</p>
                   <p>{item.mista} → {item.mihin}</p>
+                  <p>{item.lahtoaika}</p>
+                  <p>{item.paikkoja}</p>
                   <p>{item.tyyppi}</p>
                   <p>{item.lisatiedot}</p>
                 </div>

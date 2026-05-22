@@ -56,7 +56,20 @@ app.MapGet("/kyydit", async (IConfiguration config) =>
 
         await conn.OpenAsync();
 
-        var cmd = new NpgsqlCommand("SELECT * FROM kyydit", conn);
+        var cmd = new NpgsqlCommand(@"
+        SELECT 
+            k.id,
+            k.kuski_id,
+            k.mista,
+            k.mihin,
+            k.lahtoaika,
+            k.paikkoja,
+            k.tyyppi,
+            k.lisatiedot,
+            l.name
+        FROM kyydit k
+        JOIN login l ON k.kuski_id = l.id
+        ", conn);
 
         var reader = await cmd.ExecuteReaderAsync();
 
@@ -73,7 +86,8 @@ app.MapGet("/kyydit", async (IConfiguration config) =>
                 tyyppi = reader.GetString(reader.GetOrdinal("tyyppi")),
                 lisatiedot = reader.IsDBNull(reader.GetOrdinal("lisatiedot"))
                     ? null
-                    : reader.GetString(reader.GetOrdinal("lisatiedot"))
+                    : reader.GetString(reader.GetOrdinal("lisatiedot")),
+                name = reader.GetString(reader.GetOrdinal("name"))
             });
         }
 
