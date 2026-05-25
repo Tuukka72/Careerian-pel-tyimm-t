@@ -16,14 +16,109 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Enable CORS
 app.UseCors("AllowReact");
 
-// Redirect HTTP -> HTTPS
 app.UseHttpsRedirection();
 
 
-// TEST DATABASE CONNECTION
+// ----------------------
+// REGISTER USER
+// ----------------------
+app.MapPost("/login/register", async (
+    IConfiguration config,
+    LoginRequest request) =>
+{
+    try
+    {
+        if (string.IsNullOrWhiteSpace(request.Name) ||
+            string.IsNullOrWhiteSpace(request.Password))
+        {
+            return Results.BadRequest("Username and password required");
+        }
+
+        var connString = config.GetConnectionString("DefaultConnection");
+
+        await using var conn = new NpgsqlConnection(connString);
+
+        await conn.OpenAsync();
+
+        // Check if username already exists
+        var checkCmd = new NpgsqlCommand(
+            "SELECT COUNT(*) FROM login WHERE name = @name",
+            conn);
+
+        checkCmd.Parameters.AddWithValue("name", request.Name);
+
+        var exists = (long)await checkCmd.ExecuteScalarAsync();
+
+        if (exists > 0)
+        {
+            return Results.BadRequest("Username already exists");
+        }
+
+        // Insert user
+        var insertCmd = new NpgsqlCommand(
+            "INSERT INTO login (name, password) VALUES (@name, @password)",
+            conn);
+
+        insertCmd.Parameters.AddWithValue("name", request.Name);
+        insertCmd.Parameters.AddWithValue("password", request.Password);
+
+        await insertCmd.ExecuteNonQueryAsync();
+
+        return Results.Ok(new
+        {
+            message = "User registered"
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Register error: {ex.Message}");
+    }
+});
+
+app.MapPost("/login/check", async (
+    IConfiguration config,
+    LoginRequest request) =>
+{
+    try
+    {
+        var connString = config.GetConnectionString("DefaultConnection");
+
+        await using var conn = new NpgsqlConnection(connString);
+
+        await conn.OpenAsync();
+
+        var cmd = new NpgsqlCommand(@"
+            SELECT id, name
+            FROM login
+            WHERE name = @name
+            AND password = @password
+        ", conn);
+
+        cmd.Parameters.AddWithValue("name", request.Name);
+        cmd.Parameters.AddWithValue("password", request.Password);
+
+        var reader = await cmd.ExecuteReaderAsync();
+
+        if (await reader.ReadAsync())
+        {
+            return Results.Ok(new
+            {
+                success = true,
+                id = reader.GetInt32(reader.GetOrdinal("id")),
+                name = reader.GetString(reader.GetOrdinal("name"))
+            });
+        }
+
+        return Results.Unauthorized();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Login error: {ex.Message}");
+    }
+});
+
 app.MapGet("/db-test", async (IConfiguration config) =>
 {
     try
@@ -42,8 +137,6 @@ app.MapGet("/db-test", async (IConfiguration config) =>
     }
 });
 
-
-// GET ALL RIDES
 app.MapGet("/kyydit", async (IConfiguration config) =>
 {
     try
@@ -98,6 +191,7 @@ app.MapGet("/kyydit", async (IConfiguration config) =>
         return Results.Problem($"Error loading rides: {ex.Message}");
     }
 });
+
 app.MapGet("/login", async (IConfiguration config) =>
 {
     try
@@ -112,9 +206,8 @@ app.MapGet("/login", async (IConfiguration config) =>
         {
             login.Add(new
             {
-                id = reader.GetInt32(reader.GetOrdinal("Id")),
-                name = reader.GetString(reader.GetOrdinal("Name")),
-                password = reader.GetString(reader.GetOrdinal("Password"))
+                id = reader.GetInt32(reader.GetOrdinal("id")),
+                name = reader.GetString(reader.GetOrdinal("name"))
             });
         }
         return Results.Ok(login);
@@ -124,5 +217,10 @@ app.MapGet("/login", async (IConfiguration config) =>
         return Results.Problem($"Error loading logins: {ex.Message}");
     }
 });
-
 app.Run();
+
+public class LoginRequest
+{
+    public string Name { get; set; } = "";
+    public string Password { get; set; } = "";
+}

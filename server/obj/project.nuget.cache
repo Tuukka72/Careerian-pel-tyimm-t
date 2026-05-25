@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "nwodMhnZv8I=",
+  "dgSpecHash": "RSNYigdmqGo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\server.csproj",
+  "projectFilePath": "C:\\Users\\tuukka.lauren\\source\\repos\\Careerian-pel-tyimm-t\\server\\server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\matias.enstrom\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
-    "C:\\Users\\matias.enstrom\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
-    "C:\\Users\\matias.enstrom\\.nuget\\packages\\npgsql\\10.0.2\\npgsql.10.0.2.nupkg.sha512"
+    "C:\\Users\\tuukka.lauren\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "C:\\Users\\tuukka.lauren\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\tuukka.lauren\\.nuget\\packages\\npgsql\\10.0.2\\npgsql.10.0.2.nupkg.sha512"
   ],
   "logs": []
 }
