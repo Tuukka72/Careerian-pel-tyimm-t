@@ -1,7 +1,6 @@
 using System.ComponentModel.Design;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Npgsql;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Allow React frontend
@@ -15,15 +14,10 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 app.UseCors("AllowReact");
-
 app.UseHttpsRedirection();
 
-
-// ----------------------
-// REGISTER USER
-// ----------------------
+// Register users
 app.MapPost("/login/register", async (
     IConfiguration config,
     LoginRequest request) =>
@@ -35,22 +29,16 @@ app.MapPost("/login/register", async (
         {
             return Results.BadRequest("Username and password required");
         }
-
         var connString = config.GetConnectionString("DefaultConnection");
-
         await using var conn = new NpgsqlConnection(connString);
-
         await conn.OpenAsync();
 
         // Check if username already exists
         var checkCmd = new NpgsqlCommand(
             "SELECT COUNT(*) FROM login WHERE name = @name",
             conn);
-
         checkCmd.Parameters.AddWithValue("name", request.Name);
-
         var exists = (long)await checkCmd.ExecuteScalarAsync();
-
         if (exists > 0)
         {
             return Results.BadRequest("Username already exists");
@@ -60,12 +48,9 @@ app.MapPost("/login/register", async (
         var insertCmd = new NpgsqlCommand(
             "INSERT INTO login (name, password) VALUES (@name, @password)",
             conn);
-
         insertCmd.Parameters.AddWithValue("name", request.Name);
         insertCmd.Parameters.AddWithValue("password", request.Password);
-
         await insertCmd.ExecuteNonQueryAsync();
-
         return Results.Ok(new
         {
             message = "User registered"
@@ -77,6 +62,7 @@ app.MapPost("/login/register", async (
     }
 });
 
+// Check if user exists
 app.MapPost("/login/check", async (
     IConfiguration config,
     LoginRequest request) =>
@@ -84,11 +70,8 @@ app.MapPost("/login/check", async (
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-
         await using var conn = new NpgsqlConnection(connString);
-
         await conn.OpenAsync();
-
         var cmd = new NpgsqlCommand(@"
             SELECT id, name
             FROM login
@@ -98,9 +81,7 @@ app.MapPost("/login/check", async (
 
         cmd.Parameters.AddWithValue("name", request.Name);
         cmd.Parameters.AddWithValue("password", request.Password);
-
         var reader = await cmd.ExecuteReaderAsync();
-
         if (await reader.ReadAsync())
         {
             return Results.Ok(new
@@ -110,7 +91,6 @@ app.MapPost("/login/check", async (
                 name = reader.GetString(reader.GetOrdinal("name"))
             });
         }
-
         return Results.Unauthorized();
     }
     catch (Exception ex)
@@ -118,17 +98,14 @@ app.MapPost("/login/check", async (
         return Results.Problem($"Login error: {ex.Message}");
     }
 });
-
+// Test if db is online and working
 app.MapGet("/db-test", async (IConfiguration config) =>
 {
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-
         await using var conn = new NpgsqlConnection(connString);
-
         await conn.OpenAsync();
-
         return Results.Ok("Database connected!");
     }
     catch (Exception ex)
@@ -136,19 +113,15 @@ app.MapGet("/db-test", async (IConfiguration config) =>
         return Results.Problem($"Database error: {ex.Message}");
     }
 });
-
+// Gets all rides
 app.MapGet("/kyydit", async (IConfiguration config) =>
 {
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-
         var kyydit = new List<object>();
-
         await using var conn = new NpgsqlConnection(connString);
-
         await conn.OpenAsync();
-
         var cmd = new NpgsqlCommand(@"
         SELECT 
             k.id,
@@ -165,7 +138,6 @@ app.MapGet("/kyydit", async (IConfiguration config) =>
         ", conn);
 
         var reader = await cmd.ExecuteReaderAsync();
-
         while (await reader.ReadAsync())
         {
             kyydit.Add(new
