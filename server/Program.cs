@@ -114,53 +114,69 @@ app.MapGet("/db-test", async (IConfiguration config) =>
     }
 });
 // Gets all rides
-app.MapGet("/kyydit", async (IConfiguration config) =>
+app.MapPost("/kyydit", async (HttpContext context, IConfiguration config) =>
+{
+    try
+    {
+        var data = await context.Request.ReadFromJsonAsync<KyytiDto>();
+
+        if (data == null)
+            return Results.BadRequest("Invalid data");
+
+        var connString = config.GetConnectionString("DefaultConnection");
+
+        await using var conn = new NpgsqlConnection(connString);
+        await conn.OpenAsync();
+
+        var cmd = new NpgsqlCommand(@"
+            INSERT INTO kyydit
+            (kuski_id, mista, mihin, lahtoaika, paikkoja, tyyppi, lisatiedot)
+            VALUES
+            (@kuski_id, @mista, @mihin, @lahtoaika, @paikkoja, @tyyppi, @lisatiedot)
+        ", conn);
+
+        cmd.Parameters.AddWithValue("@kuski_id", data.kuski_id);
+        cmd.Parameters.AddWithValue("@mista", data.mista);
+        cmd.Parameters.AddWithValue("@mihin", data.mihin);
+        cmd.Parameters.AddWithValue("@lahtoaika", data.lahtoaika);
+        cmd.Parameters.AddWithValue("@paikkoja", data.paikkoja);
+        cmd.Parameters.AddWithValue("@tyyppi", data.tyyppi);
+        cmd.Parameters.AddWithValue("@lisatiedot",
+            (object?)data.lisatiedot ?? DBNull.Value);
+
+        await cmd.ExecuteNonQueryAsync();
+
+        return Results.Ok(new { message = "Kyyti lisätty" });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
+});
+// Delete rides by id
+app.MapDelete("/kyydit/{id}", async (int id, IConfiguration config) =>
 {
     try
     {
         var connString = config.GetConnectionString("DefaultConnection");
-        var kyydit = new List<object>();
         await using var conn = new NpgsqlConnection(connString);
         await conn.OpenAsync();
-        var cmd = new NpgsqlCommand(@"
-        SELECT 
-            k.id,
-            k.kuski_id,
-            k.mista,
-            k.mihin,
-            k.lahtoaika,
-            k.paikkoja,
-            k.tyyppi,
-            k.lisatiedot,
-            l.name
-        FROM kyydit k
-        JOIN login l ON k.kuski_id = l.id
-        ", conn);
+        var cmd = new NpgsqlCommand(
+            "DELETE FROM kyydit WHERE id = @id",
+            conn
+        );
 
-        var reader = await cmd.ExecuteReaderAsync();
-        while (await reader.ReadAsync())
-        {
-            kyydit.Add(new
-            {
-                id = reader.GetInt32(reader.GetOrdinal("id")),
-                kuski_id = reader.GetInt32(reader.GetOrdinal("kuski_id")),
-                mista = reader.GetString(reader.GetOrdinal("mista")),
-                mihin = reader.GetString(reader.GetOrdinal("mihin")),
-                lahtoaika = reader.GetDateTime(reader.GetOrdinal("lahtoaika")),
-                paikkoja = reader.GetInt32(reader.GetOrdinal("paikkoja")),
-                tyyppi = reader.GetString(reader.GetOrdinal("tyyppi")),
-                lisatiedot = reader.IsDBNull(reader.GetOrdinal("lisatiedot"))
-                    ? null
-                    : reader.GetString(reader.GetOrdinal("lisatiedot")),
-                name = reader.GetString(reader.GetOrdinal("name"))
-            });
-        }
+        cmd.Parameters.AddWithValue("@id", id);
 
-        return Results.Ok(kyydit);
+        var rows = await cmd.ExecuteNonQueryAsync();
+        if (rows == 0)
+            return Results.NotFound();
+
+        return Results.Ok(new { message = "Deleted" });
     }
     catch (Exception ex)
     {
-        return Results.Problem($"Error loading rides: {ex.Message}");
+        return Results.Problem(ex.Message);
     }
 });
 
@@ -195,4 +211,15 @@ public class LoginRequest
 {
     public string Name { get; set; } = "";
     public string Password { get; set; } = "";
+}
+
+public class KyytiDto
+{
+    public int kuski_id { get; set; }
+    public string mista { get; set; }
+    public string mihin { get; set; }
+    public DateTime lahtoaika { get; set; }
+    public int paikkoja { get; set; }
+    public string tyyppi { get; set; }
+    public string? lisatiedot { get; set; }
 }

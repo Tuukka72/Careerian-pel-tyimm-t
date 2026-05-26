@@ -1,5 +1,5 @@
-tehty: css tiedostot, main-, poisto- ja uusikyyti sivut, navbaari, routing, login
+tehty: css tiedostot, kaikki sivut, login systeemi toimii, register toimii, main sivun lista toimii,
 
-WIP: tietokanta toimimaan oikein
+WIP: listan teko kohta savaamaan DBseen, 
 
 To Do: 
