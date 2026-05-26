@@ -426,6 +426,54 @@ app.MapGet("/login", async (
     }
 });
 
+// Delete ride
+app.MapDelete("/kyydit/delete/{id}", async (
+    IConfiguration config,
+    int id) =>
+{
+    try
+    {
+        var connString =
+            config.GetConnectionString(
+                "DefaultConnection"
+            );
+
+        await using var conn =
+            new NpgsqlConnection(connString);
+
+        await conn.OpenAsync();
+
+        var cmd = new NpgsqlCommand(@"
+            DELETE FROM kyydit
+            WHERE id = @id
+        ", conn);
+
+        cmd.Parameters.AddWithValue("id", id);
+
+        var rowsAffected =
+            await cmd.ExecuteNonQueryAsync();
+
+        if (rowsAffected == 0)
+        {
+            return Results.NotFound(
+                "Ride not found"
+            );
+        }
+
+        return Results.Ok(new
+        {
+            success = true,
+            message = "Ride deleted"
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(
+            $"Error deleting ride: {ex.Message}"
+        );
+    }
+});
+
 app.Run();
 
 public class LoginRequest

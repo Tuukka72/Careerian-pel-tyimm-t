@@ -5,42 +5,117 @@ export default function PoistaKyydit() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("list") || "[]");
-    setItems(data);
+    fetch("https://localhost:7150/kyydit")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(
+            "Failed to fetch rides"
+          );
+        }
+
+        return res.json();
+      })
+      .then((data) => setItems(data))
+      .catch((err) =>
+        console.error(err)
+      );
   }, []);
-const deleteItem = (indexToRemove) => {
-  const updated = items.filter((_, index) => index !== indexToRemove);
 
-  setItems(updated);
-  localStorage.setItem("list", JSON.stringify(updated));
-};
+  const deleteItem = async (id) => {
+    try {
+      const response = await fetch(
+        `https://localhost:7150/kyydit/delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-return (
-  <>
+      if (!response.ok) {
+        throw new Error(
+          "Failed to delete ride"
+        );
+      }
 
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <h2>Poista kyydit</h2>
+      // Remove from frontend list
+      setItems(
+        items.filter(
+          (item) => item.id !== id
+        )
+      );
 
-        {items.length === 0 ? (
-          <p>Ei kyytejä</p>
-        ) : (
-          items.map((item, i) => (
-            <div key={i} className={styles["list-content"]}>
-              <p>{item.route}</p>
-              <p>type: {item.type}</p>
-              <p>details: {item.details}</p>
-              <p>Time: {item.time}</p>
-              <p>seats: {item.seatCount}</p>
-              <p>user: {item.user}</p>
+    } catch (err) {
+      console.error(err);
 
-              <button onClick={() => deleteItem(i)}>
-                Poista
-              </button>
-            </div>
-          ))
-        )}
+      alert("Kyydin poisto epäonnistui");
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <h2>Poista kyydit</h2>
+
+          {items.length === 0 ? (
+            <p>Ei kyytejä</p>
+          ) : (
+            items.map((item) => (
+              <div
+                key={item.id}
+                className={
+                  styles["list-content"]
+                }
+              >
+                <p>
+                  Kuski: {item.name}
+                </p>
+
+                <p>
+                  Reitti:
+                  {" "}
+                  {item.mista}
+                  {" → "}
+                  {item.mihin}
+                </p>
+
+                <p>
+                  Tyyppi:
+                  {" "}
+                  {item.tyyppi}
+                </p>
+
+                <p>
+                  Lähtöaika:
+                  {" "}
+                  {new Date(
+                    item.lahtoaika
+                  ).toLocaleString()}
+                </p>
+
+                <p>
+                  Paikkoja:
+                  {" "}
+                  {item.paikkoja}
+                </p>
+
+                <p>
+                  Lisätiedot:
+                  {" "}
+                  {item.lisatiedot}
+                </p>
+
+                <button
+                  onClick={() =>
+                    deleteItem(item.id)
+                  }
+                >
+                  Poista
+                </button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
-  </>
-);}
+    </>
+  );
+}
