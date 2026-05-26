@@ -8,23 +8,69 @@ export default function App() {
   const [seatCount, setSeatCount] = useState("");
   const [time, setTime] = useState("");
   const [showPopup, setShowPopup] = useState(false);
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
-  const handleSubmit = (e) => {
+  const loggedInUser = JSON.parse(
+    localStorage.getItem("loggedInUser")
+  );
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newItem = {
-    route, type, details, seatCount, time, user: loggedInUser?.username || "unknown"
-};
-    const existing = JSON.parse(localStorage.getItem("list") || "[]");
+    if (!loggedInUser) {
+      alert("You must be logged in");
+      return;
+    }
 
-    localStorage.setItem("list", JSON.stringify([...existing, newItem]));
+    if (!route || !type || !seatCount || !time) {
+      alert("Täytä kaikki kentät");
+      return;
+    }
 
-    setShowPopup(true);
+    try {
+      const parts = route.split(" → ");
 
-    setRoute("");
-    setType("");
-    setDetails("");
+      const mista = parts[0];
+      const mihin = parts[1];
+
+      const today = new Date()
+        .toISOString()
+        .split("T")[0];
+
+      const response = await fetch(
+        "https://localhost:7150/kyydit/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            kuski_Id: loggedInUser.id,
+            mista: mista,
+            mihin: mihin,
+            lahtoaika: `${today}T${time}:00`,
+            paikkoja: Number(seatCount),
+            tyyppi: type,
+            lisatiedot: details,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add ride");
+      }
+
+      setShowPopup(true);
+
+      setRoute("");
+      setType("");
+      setDetails("");
+      setSeatCount("");
+      setTime("");
+    } catch (err) {
+      console.error(err);
+
+      alert("Kyydin lisääminen epäonnistui");
+    }
   };
 
   return (
@@ -39,14 +85,24 @@ export default function App() {
               className={style["route-input"]}
             >
               <option value="">Valitse reitti</option>
-              <option value="Tikkurila → PMT">Tikkurila → PMT</option>
-              <option value="PMT → Tikkurila">PMT → Tikkurila</option>
+
+              <option value="Tikkurila → PMT">
+                Tikkurila → PMT
+              </option>
+
+              <option value="PMT → Tikkurila">
+                PMT → Tikkurila
+              </option>
             </select>
 
             <div className={style["button-group"]}>
               <button
                 type="button"
-                className={type === "tarjoaa" ? style.active : ""}
+                className={
+                  type === "tarjoaa"
+                    ? style.active
+                    : ""
+                }
                 onClick={() => setType("tarjoaa")}
               >
                 tarjoaa
@@ -54,7 +110,11 @@ export default function App() {
 
               <button
                 type="button"
-                className={type === "pyytää" ? style.active : ""}
+                className={
+                  type === "pyytää"
+                    ? style.active
+                    : ""
+                }
                 onClick={() => setType("pyytää")}
               >
                 pyytää
@@ -63,31 +123,43 @@ export default function App() {
           </div>
 
           <div className={style.selection}>
-            {type ? `Valittu: ${type}` : "nappien valinta"}
+            {type
+              ? `Valittu: ${type}`
+              : "nappien valinta"}
           </div>
 
           <textarea
             placeholder="lisätiedot tähän"
             value={details}
-            onChange={(e) => setDetails(e.target.value)}
+            onChange={(e) =>
+              setDetails(e.target.value)
+            }
             className={style.details}
           />
 
-          <button type="submit" className={style["submit-btn"]}>
-            Lähetä
-          </button>
           <input
-          type="number"
-          placeholder="Paikkoja vapaana"
-          value={seatCount}
-          onChange={(e) => setSeatCount(e.target.value)}
+            type="number"
+            placeholder="Paikkoja vapaana"
+            value={seatCount}
+            onChange={(e) =>
+              setSeatCount(e.target.value)
+            }
           />
 
-        <input
-          type="time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
-        />
+          <input
+            type="time"
+            value={time}
+            onChange={(e) =>
+              setTime(e.target.value)
+            }
+          />
+
+          <button
+            type="submit"
+            className={style["submit-btn"]}
+          >
+            Lähetä
+          </button>
 
         </form>
 
@@ -95,7 +167,12 @@ export default function App() {
           <div className={style.popupOverlay}>
             <div className={style.popup}>
               <p>Kyytipyyntö lisätty!</p>
-              <button onClick={() => setShowPopup(false)}>
+
+              <button
+                onClick={() =>
+                  setShowPopup(false)
+                }
+              >
                 OK
               </button>
             </div>

@@ -69,7 +69,6 @@ C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\server.genruntimec
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\ref\server.dll
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\Npgsql.dll
 C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\bin\Debug\net10.0\Npgsql.dll
-C:\Users\matias.enstrom\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\bin\Debug\net10.0\appsettings.json
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\bin\Debug\net10.0\server.staticwebassets.endpoints.json
