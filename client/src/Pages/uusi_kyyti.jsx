@@ -47,7 +47,7 @@ export default function App() {
             kuski_Id: loggedInUser.id,
             mista: mista,
             mihin: mihin,
-            lahtoaika: `${today}T${time}:00`,
+            lahtoaika: time,
             paikkoja: Number(seatCount),
             tyyppi: type,
             lisatiedot: details,
@@ -147,7 +147,7 @@ export default function App() {
           />
 
           <input
-            type="time"
+            type="datetime-local"
             value={time}
             onChange={(e) =>
               setTime(e.target.value)
