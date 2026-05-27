@@ -60,7 +60,6 @@ C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\staticwebassets.bu
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\staticwebassets.development.json
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\swae.build.ex.cache
-C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\server.csproj.Up2Date
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\server.dll
 C:\Anton\Careerian-pel-tyimm-t-Anton\server\obj\Debug\net10.0\refint\server.dll
@@ -104,3 +103,4 @@ C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\obj\Debug\net10
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.pdb
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\server.genruntimeconfig.cache
 C:\Users\tuukka.lauren\source\repos\Careerian-pel-tyimm-t\server\obj\Debug\net10.0\ref\server.dll
+C:\Anton\Careerian-pel-tyimm-t-Anton\server\bin\Debug\net10.0\BCrypt-Net-Next.dll

@@ -1,5 +1,6 @@
 using System.ComponentModel.Design;
 using Microsoft.AspNetCore.Mvc.Razor;
+using BCrypt.Net;
 using Npgsql;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,18 +8,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Allow React frontend
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReact",
-        policy => policy
+    options.AddPolicy("AllowReact", policy =>
+    {
+        policy
             .WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
-            .AllowAnyMethod());
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 
+app.UseRouting();
+
 app.UseCors("AllowReact");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection(); // <<----- ATTENTION!!!!! temporarily left out because evil
 
 // Register users
 app.MapPost("/login/register", async (
@@ -77,9 +83,14 @@ app.MapPost("/login/register", async (
             request.Name
         );
 
+        var hashedPassword =
+            BCrypt.Net.BCrypt.HashPassword(
+                request.Password
+        );
+
         insertCmd.Parameters.AddWithValue(
             "password",
-            request.Password
+            hashedPassword
         );
 
         await insertCmd.ExecuteNonQueryAsync();
@@ -115,27 +126,36 @@ app.MapPost("/login/check", async (
         await conn.OpenAsync();
 
         var cmd = new NpgsqlCommand(@"
-            SELECT id, name
+            SELECT id, name, password
             FROM login
             WHERE name = @name
-            AND password = @password
         ", conn);
 
         cmd.Parameters.AddWithValue(
             "name",
             request.Name
         );
-
-        cmd.Parameters.AddWithValue(
-            "password",
-            request.Password
-        );
-
         var reader =
             await cmd.ExecuteReaderAsync();
 
         if (await reader.ReadAsync())
         {
+            var storedHash =
+                reader.GetString(
+                    reader.GetOrdinal("password")
+                );
+
+            bool validPassword =
+                BCrypt.Net.BCrypt.Verify(
+                    request.Password,
+                    storedHash
+                );
+
+            if (!validPassword)
+            {
+                return Results.Unauthorized();
+            }
+
             return Results.Ok(new
             {
                 success = true,
