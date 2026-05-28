@@ -24,7 +24,7 @@ app.UseRouting();
 
 app.UseCors("AllowReact");
 
-//app.UseHttpsRedirection(); // <<----- ATTENTION!!!!! temporarily left out because evil
+app.UseHttpsRedirection();
 
 // Register users
 app.MapPost("/login/register", async (

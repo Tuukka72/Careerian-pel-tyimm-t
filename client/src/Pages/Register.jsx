@@ -19,7 +19,7 @@ export default function Register() {
 
     try {
       const response = await fetch(
-        "http://localhost:5054/login/register",
+        "https://localhost:7150/login/register",
         {
           method: "POST",
           headers: {
