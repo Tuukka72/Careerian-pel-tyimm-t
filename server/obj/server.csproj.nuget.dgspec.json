@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Anton\\Careerian-pel-tyimm-t-Anton\\server\\server.csproj": {}
+    "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\server.csproj": {}
   },
   "projects": {
-    "C:\\Anton\\Careerian-pel-tyimm-t-Anton\\server\\server.csproj": {
+    "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Anton\\Careerian-pel-tyimm-t-Anton\\server\\server.csproj",
+        "projectUniqueName": "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "C:\\Anton\\Careerian-pel-tyimm-t-Anton\\server\\server.csproj",
-        "packagesPath": "C:\\Users\\anton.schroderus\\.nuget\\packages\\",
-        "outputPath": "C:\\Anton\\Careerian-pel-tyimm-t-Anton\\server\\obj\\",
+        "projectPath": "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\server.csproj",
+        "packagesPath": "C:\\Users\\matias.enstrom\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\matias.enstrom\\Careerian-pel-tyimm-t\\server\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\anton.schroderus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\matias.enstrom\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,7 +26,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
