@@ -1,5 +1,6 @@
-tehty: css tiedostot, main-, poisto- ja uusikyyti sivut, navbaari, routing, login
+postgres database
+tables: kyydit, login
+kyydit: id, kuski_id, mista, mihin, lahtoaika, paikkoja, tyyppi, lisatiedot.
+login: id, name, password.
 
-WIP: tietokanta toimimaan oikein
-
-To Do: 
+check connection string for more info
